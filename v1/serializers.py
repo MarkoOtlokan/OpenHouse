@@ -1,5 +1,5 @@
 from rest_framework import serializers, viewsets, routers
-from models import House, Rasperrypi, HouseNetwork, TerminalRasperrypi
+from models import *
 
 # Serializers define the API representation.
 class TerminalRasperrypiSerializer(serializers.ModelSerializer):
@@ -13,6 +13,30 @@ class TerminalRasperrypiSerializer(serializers.ModelSerializer):
 			'password',
 			)
 
+class FunctionSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Function
+		fields = (
+			'id',
+			'name',
+			'code',
+			'command',
+			'Trasperrypi',
+			'rasperrypi',
+			)
+
+class InmateSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Inmate
+		fields = (
+			'id',
+			'first_name',
+			'last_name',
+			'username',
+			'password',
+			'house',
+			)
+
 class HouseNetworkSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = HouseNetwork
@@ -24,7 +48,6 @@ class HouseSerializer(serializers.ModelSerializer):
 		fields = (
 			'id', 
 			'name', 
-			'code', 
 			'housenetwork',
 			'terminalrasperrypi',
 			)
@@ -40,5 +63,3 @@ class RasperrypiSerializer(serializers.ModelSerializer):
 			'password',
 			'house',
 			)
-
-
