@@ -2,12 +2,12 @@ from django.shortcuts import render
 from MicroControlerScripts.script1 import uploadCode
 
 # Create your views here.
+from rest_framework.views import APIView
 from rest_framework import viewsets
 from serializers import *
 from models import *
 from rest_framework.response import Response
 from rest_framework.decorators import detail_route
-#import MicroControlerScripts.script1
 
 # Create your views here.
 class HouseViewSet(viewsets.ModelViewSet):
@@ -34,10 +34,17 @@ class TerminalRasperrypiViewSet(viewsets.ModelViewSet):
 	@detail_route(methods=['get'])
 	def ExecuteCode(self, request, pk):
 		terminalrasperrypi = self.get_object()
-		uploadCode(terminalrasperrypi.ip,terminalrasperrypi.name,terminalrasperrypi.password,terminalrasperrypi.code)	
+		try:
+			uploadCode(terminalrasperrypi.ip,terminalrasperrypi.name,terminalrasperrypi.password,terminalrasperrypi.code)	
+		except Exception as e:
+			return Response({'eror': '%s' % (e)})
 		serializer = TerminalRasperrypiSerializer(terminalrasperrypi, context={'request': request}, many=True)        
-		return Response(serializer.data)
+		return Response({'status':'Transmited'})
 
 class HouseNetworkViewSet(viewsets.ModelViewSet):
 	serializer_class = HouseNetworkSerializer
 	queryset = serializer_class.Meta.model.objects.all()
+
+#class FileUploadView(APIView):
+#	pareser_classes = (FileUploadParser,)
+	#pass
