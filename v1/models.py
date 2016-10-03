@@ -15,8 +15,8 @@ class Inmate(models.Model):
 
 class Function(models.Model):
 	name = models.CharField(max_length=32)
-	code = models.FileField()
-	command = models.CharField(max_length=32)
+	code = models.FileField(upload_to='MicroControlerScripts/RassperrypiCodes/Functions')
+	command = models.CharField(max_length=32,blank=True,null=True)
 	Trasperrypi = models.ForeignKey('TerminalRasperrypi',blank=True,null=True)
 	rasperrypi = models.ForeignKey('Rasperrypi',blank=True,null=True)
 
@@ -26,7 +26,7 @@ class Function(models.Model):
 class TerminalRasperrypi(models.Model):
 	name = models.CharField(max_length=32)
 	ip = models.CharField(max_length=32)
-	code = models.FileField(upload_to='veljko')
+	code = models.FileField(upload_to='MicroControlerScripts/RassperrypiCodes')
 	password = models.CharField(max_length=32)
 
 	def __str__(self):
@@ -50,7 +50,7 @@ class House(models.Model):
 class Rasperrypi(models.Model):
 	name = models.CharField(max_length=32)
 	ip = models.CharField(max_length=32)
-	code = models.FileField()
+	code = models.FileField(upload_to='MicroControlerScripts/RassperrypiCodes')
 	password = models.CharField(max_length=32)
 	house = models.ForeignKey('House')
 
