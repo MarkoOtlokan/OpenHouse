@@ -17,8 +17,9 @@ class Function(models.Model):
 	name = models.CharField(max_length=32)
 	code = models.FileField(upload_to='MicroControlerScripts/RassperrypiCodes/Functions')
 	command = models.CharField(max_length=32,blank=True,null=True)
-	Trasperrypi = models.ForeignKey('TerminalRasperrypi',blank=True,null=True)
-	rasperrypi = models.ForeignKey('Rasperrypi',blank=True,null=True)
+	Trasperrypi = models.ForeignKey('TerminalRasperrypi',null=True)
+	rasperrypi = models.ForeignKey('Rasperrypi',null=True)
+	arduinoboard = models.CharField(max_length=32,blank=True)
 
 	def __str__(self):
 		return self.name

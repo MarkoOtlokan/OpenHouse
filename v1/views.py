@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from MicroControlerScripts.script1 import uploadCode
+from MicroControlerScripts.FileUploads import *
 
 # Create your views here.
 from rest_framework.views import APIView
@@ -17,6 +17,29 @@ class HouseViewSet(viewsets.ModelViewSet):
 class FunctionViewSet(viewsets.ModelViewSet):
 	serializer_class = FunctionSerializer
 	queryset = serializer_class.Meta.model.objects.all()
+
+	@detail_route(methods=['get'])
+	def UploadArduinoCode(self, request, pk):
+		function = self.get_object()
+		terminalrasperrypi = function.Trasperrypi
+		name = function.code.name.split('/')[-1]
+		try:
+			uploadArduinocode(terminalrasperrypi.ip,terminalrasperrypi.name,terminalrasperrypi.password,name,function.arduinoboard) 
+		except Exception as e:
+			return Response({'eror': '%s' % e})
+		return Response({'status': 'ok'})
+
+	@detail_route(methods=['get'])
+	def ArduinoSleep(self, request, pk):
+		function = self.get_object()
+		terminalrasperrypi = function.Trasperrypi
+		try:
+			arduinoToSleep(terminalrasperrypi.ip,terminalrasperrypi.name,terminalrasperrypi.password,function.arduinoboard) 
+			time.sleep(100)
+		except Exception as e:
+			return Response({'eror': '%s' % e})
+		return Response({'status': 'ok'})
+
 
 class InmateViewSet(viewsets.ModelViewSet): 
 	serializer_class = InmateSerializer
@@ -41,10 +64,7 @@ class TerminalRasperrypiViewSet(viewsets.ModelViewSet):
 		serializer = TerminalRasperrypiSerializer(terminalrasperrypi, context={'request': request}, many=True)        
 		return Response({'status':'Transmited'})
 
+
 class HouseNetworkViewSet(viewsets.ModelViewSet):
 	serializer_class = HouseNetworkSerializer
 	queryset = serializer_class.Meta.model.objects.all()
-
-#class FileUploadView(APIView):
-#	pareser_classes = (FileUploadParser,)
-	#pass

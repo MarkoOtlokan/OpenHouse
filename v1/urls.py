@@ -9,7 +9,6 @@ router.register(r'HouseNetwork',HouseNetworkViewSet)
 router.register(r'TerminalRasperrypi',TerminalRasperrypiViewSet)
 router.register(r'Inmate',InmateViewSet)
 router.register(r'Function',FunctionViewSet)
-#router.register(r'upload',FileUploadView.as_view())
 
 urlpatterns = [
     url(

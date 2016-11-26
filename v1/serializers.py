@@ -23,6 +23,7 @@ class FunctionSerializer(serializers.ModelSerializer):
 			'command',
 			'Trasperrypi',
 			'rasperrypi',
+			'arduinoboard',
 			)
 
 class InmateSerializer(serializers.ModelSerializer):
