@@ -4,3 +4,4 @@ djangorestframework
 djangorestframework-jwt
 django_extensions
 paramiko
+requests

@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from MicroControlerScripts.FileUploads import *
+import time
 
 # Create your views here.
 from rest_framework.views import APIView
@@ -24,7 +25,12 @@ class FunctionViewSet(viewsets.ModelViewSet):
 		terminalrasperrypi = function.Trasperrypi
 		name = function.code.name.split('/')[-1]
 		try:
-			uploadArduinocode(terminalrasperrypi.ip,terminalrasperrypi.name,terminalrasperrypi.password,name,function.arduinoboard) 
+			uploadArduinocode(terminalrasperrypi.ip
+				,terminalrasperrypi.name
+				,terminalrasperrypi.password
+				,name
+				,function.arduinoboard) 
+			#time.sleep(100)
 		except Exception as e:
 			return Response({'eror': '%s' % e})
 		return Response({'status': 'ok'})
@@ -34,7 +40,10 @@ class FunctionViewSet(viewsets.ModelViewSet):
 		function = self.get_object()
 		terminalrasperrypi = function.Trasperrypi
 		try:
-			arduinoToSleep(terminalrasperrypi.ip,terminalrasperrypi.name,terminalrasperrypi.password,function.arduinoboard) 
+			arduinoToSleep(terminalrasperrypi.ip
+				,terminalrasperrypi.name
+				,terminalrasperrypi.password
+				,function.arduinoboard) 
 			time.sleep(100)
 		except Exception as e:
 			return Response({'eror': '%s' % e})

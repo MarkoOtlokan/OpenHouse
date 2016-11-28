@@ -17,9 +17,10 @@ def uploadArduinocode(ip, username, password, filename, arduinoBoard):
 	stdin, stdout, stderr = ssh.exec_command("pip install -U platformio")
 	time.sleep(15)
 	stdin, stdout, stderr = ssh.exec_command("platformio init --board %s" % arduinoBoard )
-	time.sleep(3)
+	time.sleep(30)
 	ftp = ssh.open_sftp()
-	ftp.put('src/main.c','RassperrypiCodes/Functions/%s' % filename)
+	ftp.put('RassperrypiCodes/Functions/%s' % filename,'src/main.c')
+	time.sleep(5)
 	stdin, stdout, stderr = ssh.exec_command("platformio run -t upload")
 	time.sleep(70)
 
@@ -36,5 +37,5 @@ def arduinoToSleep(ip, username, password, arduinoBoard):
 	stdin, stdout, stderr = ssh.exec_command("platformio run -t upload")
 	time.sleep(70)
 
-if __name__ == "__main__":
-	arduinoToSleep('localhost','ssh1','kerlaje1234','nanoatmega328')
+#if __name__ == "__main__":
+#	uploadArduinocode('192.168.1.24','veljko','kerlaje1234','veljko.c','nanoatmega328')
