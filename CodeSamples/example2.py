@@ -1,5 +1,8 @@
+import math#vejashdjkahs
 import RPi.GPIO as GPIO
- 
+import time 
+import numpy
+
 # use P1 header pin numbering convention
 GPIO.setmode(GPIO.BOARD)
  
