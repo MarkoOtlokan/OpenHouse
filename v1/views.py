@@ -30,7 +30,6 @@ class FunctionViewSet(viewsets.ModelViewSet):
 				,terminalrasperrypi.password
 				,name
 				,function.arduinoboard) 
-			#time.sleep(100)
 		except Exception as e:
 			return Response({'eror': '%s' % e})
 		return Response({'status': 'ok'})

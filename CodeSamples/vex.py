@@ -1,5 +1,3 @@
-filein = open('example3.py','r')
-
 def importing(file):
 	i = 0
 	line = 'nothing'
@@ -7,18 +5,24 @@ def importing(file):
 	while(line!=''):
 		line = file.readline()
 		if '#' in line:
-			continue
-		if 'import' in line:
-			print line
+			b = 0
+			for item in line:
+				if item == '#':
+					break
+				else:
+					b+=1
+			line1 = line[:b]
+		else:
+			line1 = line
+		if 'import' in line1:
 			i+=1
-			lib ={i:line}
+			lib ={i:line1}
 			libs.append(lib)
-			if 'pigpio' in line:
+			if 'pigpio' in line1:
 				platform = {'platform':'pigpio'}
 			else:
 				platform = {'platfrom':'RPi.GPIO'}
 	libs.append(platform)
-	print libs
 	return libs
 
 def FindPins(file,lib):
@@ -29,67 +33,95 @@ def FindPins(file,lib):
 		while(line!=''):
 			line = file.readline()
 			if '#' in line:
-				continue
-			if 'set_mode' in line:
-				ind = line.index('(')
-				if line[ind+2]==',':
-					print line[ind+1]
-					pin = {int(line[ind+1]):line}
+				b = 0
+				for item in line:
+					if item == '#':
+						break
+					else:
+						b+=1
+				line1 = line[:b]
+			else:
+				line1 = line
+			if 'set_mode' in line1:
+				ind = line1.index('(')
+				if line1[ind+2]==',':
+					pin = {int(line1[ind+1]):line1}
 				else:
-					print line[ind+1]+line[ind+2]
-					pin = {int(line[ind+1]+line[ind+2]):line}
+					pin = {int(line1[ind+1]+line1[ind+2]):line1}
 				pins.append(pin)
 	elif(lib == 'RPi.GPIO'):
 		while(line!=''):
 			line = file.readline()
 			if '#' in line:
-				continue
-			if 'setup' in line:
-				ind = line.index('(')
-				if line[ind+2]==',':
-					pin = {int(line[ind+1]):line}
+				b = 0
+				for item in line:
+					if item == '#':
+						break
+					else:
+						b+=1
+				line1 = line[:b]
+			else:
+				line1 = line
+			if 'setup' in line1:
+				ind = line1.index('(')
+				if line1[ind+2]==',':
+					pin = {int(line1[ind+1]):line1}
 				else:
-					pin = {int(line[ind+1]+line[ind+2]):line}
+					pin = {line1[ind+1]+line1[ind+2]:line1}
 				pins.append(pin)
 	return pins
 
 def FindCode(file,lib,pins):
 	line = 'nothing'
-	print 'a'
 	code = []
 	i = 0
 	while(line != ''):
 		line = file.readline()
 		if '#' in line:
-			h = 0
+			b = 0
 			for item in line:
-				if(item == '#'):
+				if item == '#':
 					break
 				else:
-					h+=1
-			line = line[:h]
-			print line
+					b+=1
+			line1 = line[:b]
+		else:
+			line1 = line
 		for item in range(len(lib)-1):
 			x = True
-			if(line == lib[item].values()[0]):
+			if(line1 == lib[item].values()[0]):
 				x = False
 				break
 			else:
 				pass
 		if(x == True):
-			cod = {i:line}
+			for item in range(len(pins)-1):
+				if(line1 == pins[item].values()[0]):
+					x = False
+					break
+				else:
+					pass
+		if(x == True):
+			cod = {i:line1}
 			code.append(cod)
 		i+=1	
-		print i
-	for item in code:
-		print item 
-
+	return code
 
 
 
 if __name__ == '__main__':
-	vex = importing(filein)
+	filein = open('example2.py','r')
+	lib = importing(filein)
 	filein.close()
-	#FindPins(filein,'RPi.GPIO')
-	filein = open('example3.py','r')
-	FindCode(filein,vex,'123')
+	filein = open('example2.py','r')
+	pins = FindPins(filein,lib[-1]['platfrom'])
+	filein.close()
+	filein = open('example2.py','r')
+	code = FindCode(filein,lib,pins)
+	for item in lib:
+		print item 
+	for item in pins:
+		print item
+	for item in code:
+		print item
+	filein.close()

@@ -1,17 +1,16 @@
-veljko = '123456213#78900'
-if '#' in veljko:
-	b = 0
-	for item in veljko:
-		if(veljko[b] != '#'):
-			b+=1
-print veljko[:b]
-
-b = 0
-			for item in line:
-				print line[b],b
-				if(line[b] != '#'):
-					b+=1
-				else:
-					break
-			line = line[:b]
-		print 'a1'
+filein = open('vextor.py','r')
+line = 'nothing'
+fileout = open('vextor1.py','w')
+while(line != ''):
+	line = filein.readline()
+	if '#' in line:
+		b = 0
+		for item in line:
+			if item == '#':
+				break
+			else:
+				b+=1
+		line1 = line[:b]
+	else:
+		line1 = line
+	fileout.write(line1+'\n')
